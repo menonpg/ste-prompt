@@ -56,8 +56,29 @@ Copy `claude/commands/ste.md` into `.claude/commands/` (project) or
 
 ### Codex / other agents
 
-Copy the contents of `AGENTS.ste.md` into your repo's `AGENTS.md`. The behavior
-travels with the repo.
+STE-Prompt works in Codex too — Codex doesn't use Claude's plugin format, so you
+install it as agent instructions instead. Two options:
+
+**Option 1 — `AGENTS.md` (recommended).** Codex automatically reads `AGENTS.md`
+from the repo root (and `~/.codex/AGENTS.md` for all projects). Append our rules:
+
+```bash
+# per-project
+cat AGENTS.ste.md >> AGENTS.md
+
+# or global, for every Codex session
+mkdir -p ~/.codex && cat AGENTS.ste.md >> ~/.codex/AGENTS.md
+```
+
+The agent then writes explanations, runbooks, and procedures in Simplified
+Technical English by default. The behavior travels with the repo.
+
+**Option 2 — on-demand prompt.** Paste `AGENTS.ste.md` (or `RULES.md`) into any
+Codex / ChatGPT / Gemini / Cursor chat and say *"rewrite the above in Simplified
+Technical English using these rules."* No install needed — it's just a prompt.
+
+The same `AGENTS.md` drop-in works for any agent that reads an `AGENTS.md`
+convention (Cursor, Cline, Aider, Windsurf, OpenClaw, etc.).
 
 ## The rules (condensed)
 

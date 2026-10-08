@@ -23,19 +23,36 @@ is the content.
 
 ## Install
 
-### Claude Code
+### Claude Code (plugin — recommended)
 
-**Slash command** — copy `claude/commands/ste.md` into `.claude/commands/` in
-your project (or `~/.claude/commands/` for all projects):
+This repo is a Claude Code plugin **and** a one-plugin marketplace. Install it
+straight from GitHub:
+
+```
+/plugin marketplace add menonpg/ste-prompt
+/plugin install ste-prompt@menonlab
+```
+
+That gives you:
+
+- the `/ste` **slash command** (rewrite a block on demand),
+- a **`simplified-technical-english` skill** the agent invokes automatically
+  when you ask for STE / clearer procedures,
+- the full rule set and dictionary as reference.
+
+Then:
 
 ```
 /ste            rewrite the previous answer in Simplified Technical English
 /ste <text>     rewrite the given text in STE
 ```
 
-**Output style (persistent)** — copy `claude/output-styles/ste.md` into
-`.claude/output-styles/` and select it with `/output-style`. The agent then
-writes every explanation in STE by default.
+### Claude Code (manual, no plugin)
+
+Copy `claude/commands/ste.md` into `.claude/commands/` (project) or
+`~/.claude/commands/` (global). For a persistent style, copy
+`claude/output-styles/ste.md` into `.claude/output-styles/` and select it with
+`/output-style`.
 
 ### Codex / other agents
 

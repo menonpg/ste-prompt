@@ -1,0 +1,14 @@
+{
+  "name": "menonlab",
+  "owner": {
+    "name": "The Menon Lab",
+    "url": "https://blog.themenonlab.com"
+  },
+  "plugins": [
+    {
+      "name": "ste-prompt",
+      "source": "./",
+      "description": "Simplified Technical English (ASD-STE100) for Claude Code — a /ste slash command, an output style, and a skill that make agent explanations and runbooks short, active, and unambiguous."
+    }
+  ]
+}

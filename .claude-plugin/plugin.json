@@ -1,0 +1,14 @@
+{
+  "name": "ste-prompt",
+  "displayName": "STE-Prompt (Simplified Technical English)",
+  "version": "0.1.0",
+  "description": "Write agent explanations, runbooks, and procedures in ASD-STE100 Simplified Technical English — short, active, one idea per sentence, hard to misread.",
+  "author": {
+    "name": "Prahlad G. Menon / The Menon Lab",
+    "url": "https://blog.themenonlab.com"
+  },
+  "homepage": "https://blog.themenonlab.com/blog/asd-ste100-simplified-technical-english-prompting",
+  "repository": "https://github.com/menonpg/ste-prompt",
+  "license": "MIT",
+  "keywords": ["prompt-engineering", "controlled-language", "asd-ste100", "simplified-technical-english", "documentation", "runbooks"]
+}

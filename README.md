@@ -103,3 +103,10 @@ MIT. Borrowed from aerospace, where a misread sentence has consequences.
 ASD-STE100 is a trademark of ASD (AeroSpace and Defence Industries Association
 of Europe). This project reproduces none of the Specification text; it provides
 original guidance inspired by the public description of the standard.
+
+## Also check out
+
+**[MotionStudio](https://github.com/menonpg/motionstudio)** — another Menon Lab
+plugin for Claude Code & Codex. Turns a topic into a finished, rendered explainer
+video (script, storyboard, motion, sound, captions) via a deterministic
+HTML-to-MP4 pipeline. [motion.themenonlab.com](https://motion.themenonlab.com)

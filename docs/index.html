@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STE-Prompt — Simplified Technical English for Claude Code & Codex</title>
+  <meta name="description" content="ASD-STE100 Simplified Technical English as a plugin for Claude Code, Codex & coding agents. Short, active, one idea per sentence — LLM output you can't misread." />
+  <meta property="og:title" content="STE-Prompt — Simplified Technical English for coding agents" />
+  <meta property="og:description" content="The aerospace controlled-language standard, packaged as a Claude Code plugin. Clearer, unambiguous agent output." />
+  <meta property="og:type" content="website" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface2: #1a1a26;
+      --border: #2a2a3a;
+      --text: #e8e8f0;
+      --muted: #8888aa;
+      --accent: #10b981;
+      --accent2: #34d399;
+      --gold: #f59e0b;
+      --blue: #3b82f6;
+      --code: #0d1117;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.5; }
+    a { color: inherit; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,15,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 40px; }
+    .nav-logo { font-size: 20px; font-weight: 700; color: var(--accent2); letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--muted); font-weight: 400; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--accent); color: white; border: none; border-radius: 8px;
+      padding: 8px 20px; font-size: 14px; cursor: pointer; font-weight: 600; text-decoration: none; }
+    @media (max-width: 720px) { .nav-links a:not(.nav-cta) { display: none; } nav { padding: 12px 20px; } }
+
+    .slide { min-height: auto; padding: 120px 40px 70px; position: relative; overflow: hidden; }
+    .slide:nth-child(even) { background: var(--surface); }
+    @media (max-width: 720px) { .slide { padding: 90px 20px 50px; } }
+
+    /* HERO */
+    .hero { text-align: center; max-width: 880px; margin: 0 auto; }
+    .hero-badge { display: inline-block; background: rgba(16,185,129,0.15);
+      border: 1px solid rgba(16,185,129,0.4); color: var(--accent2);
+      border-radius: 20px; padding: 6px 16px; font-size: 13px; margin-bottom: 28px; }
+    .hero h1 { font-size: clamp(40px, 6vw, 74px); font-weight: 800; line-height: 1.05;
+      letter-spacing: -2px; margin-bottom: 24px; }
+    .hero h1 .highlight { background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 20px; color: var(--muted); line-height: 1.6; max-width: 640px; margin: 0 auto 40px; }
+    .hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white; border: none; border-radius: 10px; padding: 14px 32px;
+      font-size: 16px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn-secondary { background: transparent; color: var(--text);
+      border: 1px solid var(--border); border-radius: 10px; padding: 14px 32px;
+      font-size: 16px; cursor: pointer; text-decoration: none; display: inline-block; }
+
+    .section { max-width: 980px; margin: 0 auto; width: 100%; }
+    .section-label { font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--accent); margin-bottom: 16px; }
+    .section h2 { font-size: clamp(28px, 4vw, 46px); font-weight: 800;
+      letter-spacing: -1px; margin-bottom: 20px; line-height: 1.15; }
+    .section > p { font-size: 18px; color: var(--muted); line-height: 1.7; max-width: 720px; }
+
+    /* CODE */
+    pre { background: var(--code); border: 1px solid var(--border); border-radius: 12px;
+      padding: 20px 22px; overflow-x: auto; margin: 24px 0; }
+    code { font-family: 'SF Mono', 'Consolas', monospace; font-size: 14px; color: #c9d1d9; }
+    .cmd { color: var(--accent2); }
+    .cmt { color: var(--muted); }
+
+    /* BEFORE/AFTER */
+    .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+    @media (max-width: 720px) { .ba-grid { grid-template-columns: 1fr; } }
+    .ba-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+    .ba-card.before { border-color: rgba(239,68,68,0.3); }
+    .ba-card.after { border-color: rgba(16,185,129,0.4); }
+    .ba-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+      margin-bottom: 14px; display: inline-block; }
+    .ba-card.before .ba-tag { color: #ef4444; }
+    .ba-card.after .ba-tag { color: var(--accent2); }
+    .ba-card p { font-size: 15px; color: var(--text); line-height: 1.65; }
+    .ba-card.before p { color: var(--muted); }
+
+    /* FEATURE GRID */
+    .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+    @media (max-width: 720px) { .feat-grid { grid-template-columns: 1fr; } }
+    .feat-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 26px; }
+    .feat-card .icon { font-size: 28px; margin-bottom: 14px; }
+    .feat-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .feat-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .feat-card code { font-size: 13px; color: var(--accent2); }
+
+    /* RULES */
+    .rule-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 40px; margin-top: 40px; list-style: none; }
+    @media (max-width: 720px) { .rule-list { grid-template-columns: 1fr; } }
+    .rule-list li { font-size: 15px; color: var(--text); padding-left: 30px; position: relative; line-height: 1.5; }
+    .rule-list li::before { content: "✈"; position: absolute; left: 0; color: var(--accent); }
+    .rule-list li span { color: var(--muted); }
+
+    footer { background: var(--bg); border-top: 1px solid var(--border); padding: 50px 40px; text-align: center; }
+    footer p { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+    footer a { color: var(--accent2); text-decoration: none; }
+    .disclaimer { font-size: 12px; color: #55556a; max-width: 680px; margin: 16px auto 0; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">STE<span>-Prompt</span></div>
+    <div class="nav-links">
+      <a href="#why">Why</a>
+      <a href="#install">Install</a>
+      <a href="#rules">Rules</a>
+      <a class="nav-cta" href="https://github.com/menonpg/ste-prompt" target="_blank">GitHub ↗</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="slide">
+    <div class="hero">
+      <div class="hero-badge">✈️ ASD-STE100 · Simplified Technical English</div>
+      <h1>LLM output you <span class="highlight">can't misread</span>.</h1>
+      <p>
+        Aerospace has spent decades making maintenance manuals unambiguous with a controlled
+        language called Simplified Technical English. STE-Prompt packages that discipline as a
+        plugin for Claude Code, Codex, and any coding agent.
+      </p>
+      <div class="hero-cta">
+        <a class="btn-primary" href="#install">Install the plugin</a>
+        <a class="btn-secondary" href="https://blog.themenonlab.com/blog/asd-ste100-simplified-technical-english-prompting" target="_blank">Read the writeup</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="slide" id="why">
+    <div class="section">
+      <div class="section-label">The idea</div>
+      <h2>A 60-rule standard that strips ambiguity out of text.</h2>
+      <p>
+        ASD-STE100 combines ~60 writing rules — short sentences, active voice, one instruction each —
+        with a controlled dictionary where every approved word carries exactly one meaning. Ask a model
+        to answer in STE and it mechanically drops the two things that make LLM prose hard to trust:
+        hedging, and compound sentences that smuggle three claims into one.
+      </p>
+
+      <div class="ba-grid">
+        <div class="ba-card before">
+          <span class="ba-tag">Before</span>
+          <p>"In order to deploy the service, you'll first want to make sure that all of the environment variables have been properly configured, and then you can go ahead and trigger a new build, which should subsequently pick up the latest changes."</p>
+        </div>
+        <div class="ba-card after">
+          <span class="ba-tag">After — STE</span>
+          <p>Deploy the service:<br>1. Make sure you set all the environment variables.<br>2. Start a new build.<br>3. The build uses the latest changes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALL -->
+  <section class="slide" id="install">
+    <div class="section">
+      <div class="section-label">Install</div>
+      <h2>One command in Claude Code.</h2>
+      <p>This repo is a Claude Code plugin <em>and</em> a one-plugin marketplace. Add it straight from GitHub:</p>
+      <pre><code><span class="cmd">/plugin marketplace add</span> menonpg/ste-prompt
+<span class="cmd">/plugin install</span> ste-prompt@menonlab</code></pre>
+      <p>Then rewrite anything on demand:</p>
+      <pre><code><span class="cmd">/ste</span> rewrite the deploy steps above in Simplified Technical English
+<span class="cmt"># or just ask — the skill triggers automatically</span></code></pre>
+
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="icon">⌨️</div>
+          <h3>Slash command</h3>
+          <p><code>/ste</code> rewrites your last answer or any block into Simplified Technical English on demand.</p>
+        </div>
+        <div class="feat-card">
+          <div class="icon">🎚️</div>
+          <h3>Output style</h3>
+          <p>Set it persistent so the agent writes every explanation and runbook in STE by default.</p>
+        </div>
+        <div class="feat-card">
+          <div class="icon">📦</div>
+          <h3>Codex & others</h3>
+          <p>Drop <code>AGENTS.ste.md</code> into your repo's <code>AGENTS.md</code> — the behavior travels with the code.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RULES -->
+  <section class="slide" id="rules">
+    <div class="section">
+      <div class="section-label">The rules</div>
+      <h2>Flat text has nowhere to hide ambiguity.</h2>
+      <ul class="rule-list">
+        <li>Procedural sentences: <span>20 words max</span></li>
+        <li>One instruction per sentence</li>
+        <li>Use the active voice</li>
+        <li>Present tense for instructions</li>
+        <li>Start with the command verb</li>
+        <li>Always use articles ("the file")</li>
+        <li>Never use a noun as a verb</li>
+        <li>One meaning per approved word</li>
+        <li>One topic per paragraph</li>
+        <li>Vertical list for 3+ steps</li>
+        <li><span>obey</span> not follow · <span>use</span> not utilize</li>
+        <li><span>make sure</span> not ensure · <span>about</span> not approximately</li>
+      </ul>
+      <p style="margin-top:40px;">
+        Built for procedures, runbooks, and agent output — not for nuance or risk analysis, where the
+        caveats <em>are</em> the content. Use it where ambiguity is the enemy.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>STE-Prompt</strong> · MIT licensed · Borrowed from aerospace, where a misread sentence has consequences.</p>
+    <p>
+      <a href="https://github.com/menonpg/ste-prompt" target="_blank">GitHub</a> ·
+      <a href="https://blog.themenonlab.com/blog/asd-ste100-simplified-technical-english-prompting" target="_blank">Writeup</a> ·
+      <a href="https://blog.themenonlab.com/open-source" target="_blank">More open source</a>
+    </p>
+    <p style="margin-top:14px;">A <a href="https://blog.themenonlab.com" target="_blank">Menon Lab</a> / ThinkCreate.AI project.</p>
+    <p class="disclaimer">
+      ASD-STE100 is a trademark of ASD (AeroSpace and Defence Industries Association of Europe).
+      This project reproduces none of the Specification text; it provides original guidance inspired by
+      the public description of the standard.
+    </p>
+  </footer>
+</body>
+</html>

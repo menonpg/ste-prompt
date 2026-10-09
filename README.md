@@ -110,3 +110,14 @@ original guidance inspired by the public description of the standard.
 plugin for Claude Code & Codex. Turns a topic into a finished, rendered explainer
 video (script, storyboard, motion, sound, captions) via a deterministic
 HTML-to-MP4 pipeline. [motion.themenonlab.com](https://motion.themenonlab.com)
+
+## Related work
+
+**[agent-ste](https://github.com/ctotheameron/agent-ste)** by ctotheameron takes
+a stricter, complementary approach: instead of guiding the model to *write* in
+STE, it **enforces** ASD-STE100 at the keystroke — a linter that blocks the write
+and names each fault (`Use "use", not "leverages"`, `Do not use a semicolon`,
+`This sentence has 30 words`). Hard faults stop the tool call before the file
+changes; heuristics warn but never block; it lints prose only and leaves your
+code untouched. It runs in Claude Code, in [pi](https://github.com/earendil-works/pi-mono),
+and standalone. STE-Prompt shapes the output; agent-ste polices it — they pair well.
